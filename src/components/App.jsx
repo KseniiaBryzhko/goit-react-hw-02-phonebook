@@ -10,11 +10,16 @@ export class App extends Component {
   };
 
   formSubmitHandler = data => {
-    console.log(data);
     const contact = {
       ...data,
       id: nanoid(),
     };
+
+    if (this.state.contacts.find(contact => contact.name === data.name)) {
+      alert(`${data.name} is already in list`);
+      return;
+    }
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, contact],
     }));
@@ -33,6 +38,12 @@ export class App extends Component {
     );
   };
 
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
   render() {
     const filteredContacts = this.getFilteredContacts();
 
@@ -45,7 +56,10 @@ export class App extends Component {
           value={this.state.filter}
           onChange={this.handleFilterChange}
         ></Filter>
-        <ContactList contacts={filteredContacts}></ContactList>
+        <ContactList
+          contacts={filteredContacts}
+          deleteContact={this.deleteContact}
+        ></ContactList>
       </div>
     );
   }
