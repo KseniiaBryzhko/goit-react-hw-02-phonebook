@@ -3,9 +3,11 @@ import css from './ContactItem.module.css';
 
 export const ContactItem = ({ id, name, number, deleteContact }) => {
   return (
-    <li>
+    <li className={css.item}>
       {name}: {number}
-      <button onClick={() => deleteContact(id)}>Delete</button>
+      <button className={css.button} onClick={() => deleteContact(id)}>
+        Delete
+      </button>
     </li>
   );
 };
